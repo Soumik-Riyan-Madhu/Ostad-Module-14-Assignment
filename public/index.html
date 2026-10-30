@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Smart To-Do Manager</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Header -->
+        <header class="header">
+
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-check-double"></i>
+                </div>
+
+                <span>Task<span class="accent">Flow</span></span>
+            </a>
+
+            <div class="header-right">
+                <div class="api-status">
+                    <span class="status-dot"></span>
+                    <span id="connectionStatus">Connecting...</span>
+                </div>
+
+                <div class="profile-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Hero -->
+            <section class="hero">
+
+                <div>
+                    <p class="eyebrow">
+                        <i class="fa-solid fa-bolt"></i>
+                        YOUR PRODUCTIVITY SPACE
+                    </p>
+
+                    <h1>Make today <span>count.</span></h1>
+
+                    <p class="hero-description">
+                        Organize your thoughts, manage your tasks,
+                        and make every little step matter.
+                    </p>
+                </div>
+
+                <div class="date-card">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span id="currentDate"></span>
+                </div>
+
+            </section>
+
+
+            <!-- Statistics -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Total Tasks</span>
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                    </div>
+
+                    <h2 id="totalTasks">0</h2>
+                    <p>All your tasks</p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Completed</span>
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                    </div>
+
+                    <h2 id="completedTasks">0</h2>
+                    <p>Tasks finished</p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Remaining</span>
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                    </div>
+
+                    <h2 id="remainingTasks">0</h2>
+                    <p>Still in progress</p>
+                </div>
+
+
+                <div class="stat-card progress-card">
+                    <div class="stat-top">
+                        <span>Progress</span>
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                    </div>
+
+                    <h2 id="progressPercentage">0%</h2>
+
+                    <div class="progress-track">
+                        <div id="progressBar"></div>
+                    </div>
+
+                    <p>Overall completion</p>
+                </div>
+
+            </section>
+
+
+            <!-- Workspace -->
+            <section class="workspace">
+
+                <!-- Task Form -->
+                <aside class="form-card">
+
+                    <div class="section-heading">
+                        <div>
+                            <span class="section-label">WORKSPACE</span>
+                            <h2 id="formHeading">Create a task</h2>
+                        </div>
+
+                        <div class="heading-icon">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                    </div>
+
+                    <form id="todoForm">
+
+                        <div class="input-group">
+                            <label for="title">Task Title</label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                placeholder="What needs to be done?"
+                                maxlength="150"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="input-group">
+                            <label for="description">Description</label>
+
+                            <textarea
+                                id="description"
+                                placeholder="Add some details about your task..."
+                                rows="5"
+                            ></textarea>
+                        </div>
+
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Add Task</span>
+                        </button>
+
+                        <button type="button" class="cancel-btn" id="cancelEdit" hidden>
+                            Cancel Editing
+                        </button>
+
+                    </form>
+
+                    <div class="form-tip">
+                        <i class="fa-regular fa-lightbulb"></i>
+                        <span>Small steps lead to big achievements.</span>
+                    </div>
+
+                </aside>
+
+
+                <!-- Task List -->
+                <div class="tasks-section">
+
+                    <div class="tasks-header">
+
+                        <div>
+                            <span class="section-label">YOUR WORK</span>
+                            <h2>My Tasks <span id="taskCount">(0)</span></h2>
+                        </div>
+
+                        <button class="refresh-btn" id="refreshBtn" title="Refresh Tasks">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- Search -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Search your tasks..."
+                        >
+
+                        <kbd>⌘ K</kbd>
+                    </div>
+
+
+                    <!-- Filters -->
+                    <div class="filter-tabs">
+
+                        <button class="filter-btn active" data-filter="all">
+                            All Tasks
+                            <span id="allCount">0</span>
+                        </button>
+
+                        <button class="filter-btn" data-filter="active">
+                            Active
+                            <span id="activeCount">0</span>
+                        </button>
+
+                        <button class="filter-btn" data-filter="completed">
+                            Completed
+                            <span id="doneCount">0</span>
+                        </button>
+
+                    </div>
+
+
+                    <!-- Task List -->
+                    <div id="todoList" class="todo-list">
+
+                        <div class="loading-state">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            <p>Loading your tasks...</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="list-footer">
+                        <span id="listFooterText">Your tasks are waiting.</span>
+                        <span><i class="fa-solid fa-cloud"></i> MongoDB Synced</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                Crafted with <i class="fa-solid fa-heart"></i>
+                for better productivity. A Project by Soumik Riyan Madhu | MERH Stack Web Development
+            </p>
+
+            <span>TaskFlow &copy; 2026</span>
+        </footer>
+
+    </div>
+
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
